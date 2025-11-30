@@ -3,7 +3,7 @@
  * Functions for signing and verifying webhooks
  */
 
-import { hmacSha256, timingSafeEqual } from './crypto';
+import { hmacSha256, timingSafeEqual, generateSecureRandom } from './crypto';
 
 export interface WebhookPayload {
   id: string;
@@ -121,3 +121,11 @@ export const WebhookEvents = {
 } as const;
 
 export type WebhookEvent = (typeof WebhookEvents)[keyof typeof WebhookEvents];
+
+/**
+ * Generate a secure webhook secret
+ * @returns A secure random hex string for webhook signing
+ */
+export function generateWebhookSecret(): string {
+  return `whsec_${generateSecureRandom(32)}`;
+}
